@@ -1,4 +1,4 @@
-﻿namespace UniversidadQ10.Domain.Entities
+﻿namespace UniversidadQ10.Domain.Common
 {
     public class DomainEntity
     {

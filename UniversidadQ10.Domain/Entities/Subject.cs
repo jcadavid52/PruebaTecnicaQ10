@@ -6,6 +6,7 @@ namespace UniversidadQ10.Domain.Entities
     {
         private string _name = string.Empty;
         private int _credit;
+        private Guid _code = Guid.NewGuid();
         public string Name
         { 
             get => _name;
@@ -21,7 +22,7 @@ namespace UniversidadQ10.Domain.Entities
             } 
         }
 
-        public Guid Code { get; } = Guid.NewGuid();
+        public Guid Code { get => _code; }
 
         public int Credit
         {
@@ -32,5 +33,7 @@ namespace UniversidadQ10.Domain.Entities
                     throw new ArgumentException($"La cantidad de créditos deben estar dentro de {SubjectPropiertiesLength.CreditMin} y {SubjectPropiertiesLength.CreditMax}");
             }
         }
+
+        public ICollection<Registration> Registration { get; set; } = default!;
     }
 }

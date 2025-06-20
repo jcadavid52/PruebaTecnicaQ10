@@ -7,7 +7,7 @@ namespace UniversidadQ10.Domain.Entities
         private string _fullName = string.Empty;
         private string _document = string.Empty;
         private string _email = string.Empty;
-        public string FirstName
+        public string FullName
         {
             get => _fullName;
             set
@@ -44,5 +44,6 @@ namespace UniversidadQ10.Domain.Entities
                 _email = value;
             }
         }
+        public ICollection<Registration> Registration { get; set; } = default!;
     }
 }

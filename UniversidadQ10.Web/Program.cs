@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using UniversidadQ10.Infrastructure.DataSource;
+using UniversidadQ10.Infrastructure.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDomainServices();
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("db")));
 
 var app = builder.Build();
 

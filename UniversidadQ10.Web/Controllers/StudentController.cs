@@ -14,6 +14,7 @@ namespace UniversidadQ10.Web.Controllers
         {
             _studentService = studentService;
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var studentsList = await _studentService.GetAllStudentsAsync();
@@ -33,9 +34,9 @@ namespace UniversidadQ10.Web.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var studentDto = new StudentCreateDto(viewModel.FullName, viewModel.Email, viewModel.Document);
+            var studentCreateDto = new StudentCreateDto(viewModel.FullName, viewModel.Email, viewModel.Document);
 
-            await _studentService.CreateStudentAsync(studentDto);
+            await _studentService.CreateStudentAsync(studentCreateDto);
             return RedirectToAction("Index");
         }
 
@@ -59,9 +60,9 @@ namespace UniversidadQ10.Web.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var studentDto = new StudentDto(viewModel.Id, viewModel.FullName, viewModel.Email, viewModel.Document);
+            var studentEditDto = new StudentEditDto(viewModel.Id, viewModel.FullName, viewModel.Email, viewModel.Document);
 
-            await _studentService.UpdateStudentAsync(id, studentDto);
+            await _studentService.UpdateStudentAsync(id, studentEditDto);
            
             return RedirectToAction("Index");
         }

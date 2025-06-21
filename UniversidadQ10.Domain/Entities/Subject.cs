@@ -31,6 +31,8 @@ namespace UniversidadQ10.Domain.Entities
             {
                 if (value < SubjectPropiertiesLength.CreditMin || value > SubjectPropiertiesLength.CreditMax)
                     throw new ArgumentException($"La cantidad de créditos deben estar dentro de {SubjectPropiertiesLength.CreditMin} y {SubjectPropiertiesLength.CreditMax}");
+
+                _credit = value;
             }
         }
 

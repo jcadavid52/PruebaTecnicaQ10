@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UniversidadQ10.Aplication.Student;
+using UniversidadQ10.Aplication.Subject;
 using UniversidadQ10.Domain.Ports;
 using UniversidadQ10.Infrastructure.DataSource;
 using UniversidadQ10.Infrastructure.Extensions;
@@ -13,6 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDomainServices();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("db")));
 builder.Services.AddScoped(typeof(IStudentService), typeof(StudentService));
+builder.Services.AddScoped(typeof(ISubjectService), typeof(SubjectService));
 
 var app = builder.Build();
 

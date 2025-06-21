@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Reflection.Emit;
 using UniversidadQ10.Domain.Entities;
 
 namespace UniversidadQ10.Infrastructure.DataSource
@@ -11,7 +9,9 @@ namespace UniversidadQ10.Infrastructure.DataSource
             : base(options) { }
 
         public DbSet<Student> Students { get; set; }
+
         public DbSet<Subject> Subjects { get; set; }
+
         public DbSet<Registration> Registrations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -20,6 +20,5 @@ namespace UniversidadQ10.Infrastructure.DataSource
 
             builder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         }
-
     }
 }

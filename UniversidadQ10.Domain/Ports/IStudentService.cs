@@ -6,8 +6,8 @@ namespace UniversidadQ10.Domain.Ports
     {
         Task<IEnumerable<StudentDto>> GetAllStudentsAsync();
         Task<StudentDto> GetStudentById(int id);
-        Task CreateStudentAsync(StudentCreateDto studentDto);
-        Task UpdateStudentAsync(int id, StudentDto studentDto);
+        Task CreateStudentAsync(StudentCreateDto studentCreateDto);
+        Task UpdateStudentAsync(int id, StudentEditDto studentEditDto);
         Task DeleteStudentAsync(int id);
     }
 }

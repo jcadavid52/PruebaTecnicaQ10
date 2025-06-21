@@ -35,29 +35,29 @@ namespace UniversidadQ10.Aplication.Student
            var studentDto = new StudentDto(student.Id, student.FullName, student.Email, student.Document);
            return studentDto;
         }
-        public async Task CreateStudentAsync(StudentCreateDto studentDto)
+        public async Task CreateStudentAsync(StudentCreateDto studentCreateDto)
         {
-            var student = new UniversidadQ10.Domain.Entities.Student
+            var studentCreate = new UniversidadQ10.Domain.Entities.Student
             {
-                Email = studentDto.Email,
-                Document = studentDto.Document,
-                FullName = studentDto.FullName,
+                Email = studentCreateDto.Email,
+                Document = studentCreateDto.Document,
+                FullName = studentCreateDto.FullName,
             };
 
-            await _studentRepository.CreateAsync(student);
+            await _studentRepository.CreateAsync(studentCreate);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task UpdateStudentAsync(int id, StudentDto studentDto)
+        public async Task UpdateStudentAsync(int id, StudentEditDto studentEditDto)
         {
             var student = await _studentRepository.GetByIdAsync(id);
 
             if (student is null)
                 throw new NotFoundException($"No se encontro entidad con id '{id}'");
 
-            student.FullName = studentDto.FullName;
-            student.Email = studentDto.Email;
-            student.Document = studentDto.Document;
+            student.FullName = studentEditDto.FullName;
+            student.Email = studentEditDto.Email;
+            student.Document = studentEditDto.Document;
             _studentRepository.Update(student);
             await _unitOfWork.SaveChangesAsync();
         }

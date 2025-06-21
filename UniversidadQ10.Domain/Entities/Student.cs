@@ -19,6 +19,7 @@ namespace UniversidadQ10.Domain.Entities
                 _fullName = value;
             }
         }
+
         public string Document
         {
             get => _document;
@@ -41,6 +42,7 @@ namespace UniversidadQ10.Domain.Entities
                     throw new ArgumentException("El email no puede estar vacío.");
                 if (value.Length < StudentPropiertiesLength.EmailMinLength || value.Length > StudentPropiertiesLength.EmailMaxLength)
                     throw new ArgumentException($"El email debe tener entre {StudentPropiertiesLength.EmailMinLength} y {StudentPropiertiesLength.EmailMaxLength} caracteres.");
+
                 _email = value;
             }
         }

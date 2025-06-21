@@ -1,0 +1,24 @@
+﻿@using UniversidadQ10.Web.ViewModels
+@model RegistrationViewModel
+
+<form asp-action="Create" method="post">
+    <label for="SelectedStudentId">Estudiante</label>
+    <select id="SelectedStudentId" name="SelectedStudentId" class="form-control">
+        <option value="">Seleccione un estudiante</option>
+        @foreach (var student in Model.Students)
+        {
+            <option value="@student.Value">@student.Text</option>
+        }
+    </select>
+    <span asp-validation-for="SelectedStudentId" class="text-danger"></span>
+    <label for="SelectedSubjecttId">Materia</label>
+    <select id="SelectedSubjecttId" name="SelectedSubjecttId" class="form-control">
+        <option value="">Seleccione una materia</option>
+        @foreach (var subject in Model.Subjects)
+        {
+            <option value="@subject.Value">@subject.Text</option>
+        }
+    </select>
+    <span asp-validation-for="SelectedSubjecttId" class="text-danger"></span>
+    <button type="submit" class="btn btn-primary">Registrar</button>
+</form>

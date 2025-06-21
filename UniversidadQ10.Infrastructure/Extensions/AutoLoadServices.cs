@@ -12,6 +12,7 @@ namespace UniversidadQ10.Infrastructure.Extensions
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
+
             var _services = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(assembly =>
                 {
@@ -21,13 +22,12 @@ namespace UniversidadQ10.Infrastructure.Extensions
                   .Where(p => p.CustomAttributes.Any(x => x.AttributeType == typeof(DomainServiceAttribute)));
 
             var _repositories = AppDomain.CurrentDomain.GetAssemblies()
-           .Where(assembly =>
-           {
-               return assembly.FullName is null || assembly.FullName.Contains("Infrastructure", StringComparison.OrdinalIgnoreCase);
-           })
-           .SelectMany(assembly => assembly.GetTypes())
-           .Where(type => type.CustomAttributes.Any(attribute => attribute.AttributeType == typeof(RepositoryAttribute)));
-
+                .Where(assembly =>
+                {
+                    return assembly.FullName is null || assembly.FullName.Contains("Infrastructure", StringComparison.OrdinalIgnoreCase);
+                })
+                  .SelectMany(assembly => assembly.GetTypes())
+                  .Where(type => type.CustomAttributes.Any(attribute => attribute.AttributeType == typeof(RepositoryAttribute)));
 
             foreach (var service in _services)
             {
@@ -39,6 +39,7 @@ namespace UniversidadQ10.Infrastructure.Extensions
                 Type typeInterface = repository.GetInterfaces().Single();
                 services.AddTransient(typeInterface, repository);
             }
+
             return services;
         }
     }

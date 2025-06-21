@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using UniversidadQ10.Web.Models;
 
 namespace UniversidadQ10.Web.Controllers
 {
@@ -24,9 +23,11 @@ namespace UniversidadQ10.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(string? message = null)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.Message = message ?? TempData["ErrorMessage"]?.ToString() ?? "Ha ocurrido un error inesperado.";
+
+            return View();
         }
     }
 }

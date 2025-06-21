@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UniversidadQ10.Domain.Common;
+using UniversidadQ10.Domain.Ports;
 using UniversidadQ10.Infrastructure.Adapters;
+using UniversidadQ10.Infrastructure.Ports;
 
 namespace UniversidadQ10.Infrastructure.Extensions
 {
@@ -8,6 +10,8 @@ namespace UniversidadQ10.Infrastructure.Extensions
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
             var _services = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(assembly =>
                 {
@@ -19,7 +23,7 @@ namespace UniversidadQ10.Infrastructure.Extensions
             var _repositories = AppDomain.CurrentDomain.GetAssemblies()
            .Where(assembly =>
            {
-               return assembly.FullName is null || assembly.FullName.Contains("Infra", StringComparison.OrdinalIgnoreCase);
+               return assembly.FullName is null || assembly.FullName.Contains("Infrastructure", StringComparison.OrdinalIgnoreCase);
            })
            .SelectMany(assembly => assembly.GetTypes())
            .Where(type => type.CustomAttributes.Any(attribute => attribute.AttributeType == typeof(RepositoryAttribute)));

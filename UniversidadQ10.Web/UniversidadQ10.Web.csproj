@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UniversidadQ10.Aplication\UniversidadQ10.Aplication.csproj" />
     <ProjectReference Include="..\UniversidadQ10.Infrastructure\UniversidadQ10.Infrastructure.csproj" />
   </ItemGroup>
 

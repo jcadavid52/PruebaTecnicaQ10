@@ -6,7 +6,7 @@ namespace UniversidadQ10.Domain.Entities
     {
         private string _name = string.Empty;
         private int _credit;
-        private Guid _code = Guid.NewGuid();
+        private readonly Guid _code = Guid.NewGuid();
         public string Name
         { 
             get => _name;

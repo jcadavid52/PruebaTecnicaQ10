@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using UniversidadQ10.Aplication.Student;
+using UniversidadQ10.Domain.Ports;
 using UniversidadQ10.Infrastructure.DataSource;
 using UniversidadQ10.Infrastructure.Extensions;
+using UniversidadQ10.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -9,6 +12,7 @@ var configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddDomainServices();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("db")));
+builder.Services.AddScoped(typeof(IStudentService), typeof(StudentService));
 
 var app = builder.Build();
 
@@ -19,7 +23,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseMiddleware<AppExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

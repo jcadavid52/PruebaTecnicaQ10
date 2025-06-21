@@ -1,7 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using UniversidadQ10.Domain.Dtos
+@model IEnumerable<StudentDto>
 
-<h1>Estudiante</h1>
+<h1>Estudiantes</h1>
+<a asp-action="Create" class="btn btn-primary">Registrar Estudiante</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Documento</th>
+            <th>Acciones</th>
+       
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.FullName</td>
+                <td>@student.Email</td>
+                <td>@student.Document</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-warning">Editar</a>
+                    <form asp-action="Delete" asp-route-id="@student.Id" method="post" onsubmit="return confirm('¿Estás seguro que deseas eliminar este estudiante?');">
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

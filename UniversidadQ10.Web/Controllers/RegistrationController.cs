@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using UniversidadQ10.Domain.Dtos;
 using UniversidadQ10.Domain.Ports;
 using UniversidadQ10.Web.ViewModels;
 
@@ -9,11 +10,12 @@ namespace UniversidadQ10.Web.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly ISubjectService _subjectService;
-
-        public RegistrationController(IStudentService studentService, ISubjectService subjectService)
+        private readonly IRegistrationService _registrationService;
+        public RegistrationController(IStudentService studentService, ISubjectService subjectService, IRegistrationService registrationService)
         {
             _studentService = studentService;
             _subjectService = subjectService;
+            _registrationService = registrationService;
         }
         public async Task<IActionResult> Index()
         {
@@ -25,6 +27,10 @@ namespace UniversidadQ10.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegistrationViewModel viewModel)
         {
+            var registrationCreateDto = new RegistrationCreateDto(viewModel.SelectedStudentId,viewModel.SelectedSubjecttId);
+
+            await _registrationService.CreateRegistrationAsync(registrationCreateDto);
+
             var registrationViewModel = await GetSelectList();
 
             return View("Index", registrationViewModel);
@@ -34,6 +40,7 @@ namespace UniversidadQ10.Web.Controllers
         {
             var studentList = await _studentService.GetAllStudentsAsync();
             var subjectList = await _subjectService.GetAllSubjectsAsync();
+            var registrationList = await _registrationService.GetAllRegistrationsAsync();
 
             var studentSelectList = studentList.Select(student => new SelectListItem
             {
@@ -50,7 +57,8 @@ namespace UniversidadQ10.Web.Controllers
             var registrationViewModel = new RegistrationViewModel
             {
                 Students = studentSelectList,
-                Subjects = subjectSelectList
+                Subjects = subjectSelectList,
+                Registrations = registrationList
             };
 
             return registrationViewModel;

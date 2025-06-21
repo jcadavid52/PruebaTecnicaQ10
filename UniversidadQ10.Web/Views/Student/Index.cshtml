@@ -6,7 +6,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Nombre</th>
             <th>Email</th>
             <th>Documento</th>
@@ -18,7 +17,6 @@
         @foreach (var student in Model)
         {
             <tr>
-                <td>@student.Id</td>
                 <td>@student.FullName</td>
                 <td>@student.Email</td>
                 <td>@student.Document</td>

@@ -11,6 +11,7 @@ namespace UniversidadQ10.Infrastructure.Extensions
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient(typeof(ICountableRepository<>), typeof(CountableRepository<>));
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             var _services = AppDomain.CurrentDomain.GetAssemblies()

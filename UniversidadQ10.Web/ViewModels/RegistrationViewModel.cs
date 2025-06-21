@@ -15,5 +15,8 @@ namespace UniversidadQ10.Web.ViewModels
         public IEnumerable<SelectListItem> Students { get; set; } = default!;
 
         public IEnumerable<SelectListItem> Subjects { get; set; } = default!;
+
+        public IEnumerable<RegistrationDto> Registrations { get; set; } = default!;
+
     }
 }

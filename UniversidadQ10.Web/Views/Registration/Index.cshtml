@@ -22,3 +22,26 @@
     <span asp-validation-for="SelectedSubjecttId" class="text-danger"></span>
     <button type="submit" class="btn btn-primary">Registrar</button>
 </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Estudiante</th>
+            <th>Materia</th>
+            <th>Fecha Registro</th>
+            <th>Créditos</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var registration in Model.Registrations)
+        {
+            <tr>
+                <td>@registration.StudentName</td>
+                <td>@registration.SubjectName</td>
+                <td>@registration.RegistrationDate</td>
+                <td>@registration.Credits</td>
+            </tr>
+        }
+    </tbody>
+</table>

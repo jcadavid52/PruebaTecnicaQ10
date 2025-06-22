@@ -1,8 +1,8 @@
 ﻿@using UniversidadQ10.Domain.Dtos
 @model IEnumerable<StudentDto>
 
-<h1>Estudiantes</h1>
-<a asp-action="Create" class="btn btn-primary">Registrar Estudiante</a>
+<h2 class="mb-5">Estudiantes</h2>
+<a asp-action="Create" class="btn btn-primary mb-4">Registrar Estudiante</a>
 <table class="table">
     <thead>
         <tr>
@@ -21,11 +21,22 @@
                 <td>@student.Email</td>
                 <td>@student.Document</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-warning">Editar</a>
-                    <form asp-action="Delete" asp-route-id="@student.Id" method="post" onsubmit="return confirm('¿Estás seguro que deseas eliminar este estudiante?');">
-                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+                    <div class="row">
+                        <div class="col-2">
+                            <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+                        </div>
+                        <div class="col-2">
+                            <form asp-action="Delete" asp-route-id="@student.Id" method="post" onsubmit="return confirm('¿Estás seguro que deseas eliminar este estudiante?');">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                   
+                   
                 </td>
+
                 
             </tr>
         }

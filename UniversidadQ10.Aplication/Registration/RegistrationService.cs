@@ -1,5 +1,4 @@
 ﻿using UniversidadQ10.Domain.Dtos;
-using UniversidadQ10.Domain.Entities;
 using UniversidadQ10.Domain.Exceptions;
 using UniversidadQ10.Domain.Ports;
 

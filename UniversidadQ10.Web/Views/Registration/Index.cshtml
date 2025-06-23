@@ -3,27 +3,42 @@
 <div class="w-50 p-3 container text-center border border-3 mb-4">
     <h2>Inscripción Materias</h2>
     <form asp-action="Create" method="post">
-        <label for="SelectedStudentId">Estudiante</label>
-        <select id="SelectedStudentId" name="SelectedStudentId" class="form-control">
-            <option value="">Seleccione un estudiante</option>
-            @foreach (var student in Model.Students)
-            {
-                <option value="@student.Value">@student.Text</option>
-            }
-        </select>
-        <span asp-validation-for="SelectedStudentId" class="text-danger"></span>
-        <label for="SelectedSubjecttId">Materia</label>
-        <select id="SelectedSubjecttId" name="SelectedSubjecttId" class="form-control">
-            <option value="">Seleccione una materia</option>
-            @foreach (var subject in Model.Subjects)
-            {
-                <option value="@subject.Value">@subject.Text</option>
-            }
-        </select>
-        <span asp-validation-for="SelectedSubjecttId" class="text-danger"></span>
-        <button type="submit" class="btn btn-primary m-4">Registrar</button>
+        <div class="mb-4">
+            <label asp-for="SelectedStudentId"></label>
+            <select id="SelectedStudentId" name="SelectedStudentId" class="form-control">
+                <option value="">Seleccione un estudiante</option>
+                @foreach (var student in Model.Students)
+                {
+                    <option value="@student.Value">@student.Text</option>
+                }
+            </select>
+            <span asp-validation-for="SelectedStudentId" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="SelectedSubjectId"></label>
+            <select id="SelectedSubjectId" name="SelectedSubjectId" class="form-control">
+                <option value="">Seleccione una materia</option>
+                @foreach (var subject in Model.Subjects)
+                {
+                    <option value="@subject.Value">@subject.Text</option>
+                }
+            </select>
+       
+            <span asp-validation-for="SelectedSubjectId" class="text-danger"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary m-4">Registrar</button>
+        </div>
     </form>
 </div>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-warning">@ViewBag.ErrorMessage</div>
+}
+@if (ViewBag.MessageSuccess != null)
+{
+    <div class="alert alert-success">@ViewBag.MessageSuccess</div>
+}
 
 <table class="table">
     <thead>
@@ -47,3 +62,15 @@
         }
     </tbody>
 </table>
+@section Scripts {
+<script>
+    $(function () {
+        @if (TempData["ToastrMessage"] != null)
+        {
+            <text>
+                toastr["@TempData["ToastrType"]"]("@TempData["ToastrMessage"]");
+           </text>
+        }
+    });
+</script>
+}

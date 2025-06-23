@@ -17,6 +17,7 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(confi
 builder.Services.AddScoped(typeof(IStudentService), typeof(StudentService));
 builder.Services.AddScoped(typeof(ISubjectService), typeof(SubjectService));
 builder.Services.AddScoped(typeof(IRegistrationService), typeof(RegistrationService));
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -30,7 +31,7 @@ if (!app.Environment.IsDevelopment())
 app.UseMiddleware<AppExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using UniversidadQ10.Domain.Exceptions;
 
 namespace UniversidadQ10.Web.Middleware
@@ -8,59 +7,39 @@ namespace UniversidadQ10.Web.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<AppExceptionHandlerMiddleware> _logger;
+        private readonly ITempDataDictionaryFactory _tempDataFactory;
 
-        private static readonly Dictionary<Type, HttpStatusCode> StatusCodes = new()
-        {
-            { typeof(NotFoundException), HttpStatusCode.BadRequest },
-            { typeof(UnauthorizedAccessException), HttpStatusCode.Unauthorized },
-     
-        };
-
-        public AppExceptionHandlerMiddleware(RequestDelegate next, ILogger<AppExceptionHandlerMiddleware> logger)
+        public AppExceptionHandlerMiddleware(RequestDelegate next, ILogger<AppExceptionHandlerMiddleware> logger, ITempDataDictionaryFactory tempDataFactory)
         {
             _next = next;
             _logger = logger;
+            _tempDataFactory = tempDataFactory;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
                 await _next(context);
             }
+            catch (ValidateCreditsSubjectStudentException ex)
+            {
+                var tempData = _tempDataFactory.GetTempData(context);
+                tempData["CoreBusinessError"] = ex.Message;
+                tempData.Save();
+
+                context.Response.Redirect("/Registration/Index");
+            }
+            catch (NotFoundException ex)
+            {
+                _logger.LogError(ex, "Entidad no encontrada");
+                context.Response.Redirect("/Home/Error?message=" + Uri.EscapeDataString(ex.Message));
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Excepción no controlada");
-
-                if (IsHtmlRequest(context))
-                {
-                    context.Response.Redirect("/Home/Error?message=" + Uri.EscapeDataString(ex.Message));
-                    return;
-                }
-
-                context.Response.StatusCode = GetStatusCodeForException(ex);
-                context.Response.ContentType = "application/json";
-
-                var result = JsonSerializer.Serialize(new
-                {
-                    Error = ex.Message
-                });
-
-                await context.Response.WriteAsync(result);
+                context.Response.Redirect("/Home/Error?message=" + Uri.EscapeDataString(ex.Message));
             }
-        }
-
-        private int GetStatusCodeForException(Exception ex)
-        {
-            return StatusCodes.TryGetValue(ex.GetType(), out var statusCode)
-                ? (int)statusCode
-                : (int)HttpStatusCode.InternalServerError;
-        }
-
-        private bool IsHtmlRequest(HttpContext context)
-        {
-            var accept = context.Request.Headers["Accept"].ToString();
-            return accept.Contains("text/html");
         }
     }
 }

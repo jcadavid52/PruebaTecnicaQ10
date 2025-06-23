@@ -37,6 +37,11 @@ namespace UniversidadQ10.Web.Controllers
             var studentCreateDto = new StudentCreateDto(viewModel.FullName, viewModel.Email, viewModel.Document);
 
             await _studentService.CreateStudentAsync(studentCreateDto);
+
+            TempData["ToastrMessage"] = "Registro creado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
+
             return RedirectToAction("Index");
         }
 
@@ -63,7 +68,11 @@ namespace UniversidadQ10.Web.Controllers
             var studentEditDto = new StudentEditDto(viewModel.Id, viewModel.FullName, viewModel.Email, viewModel.Document);
 
             await _studentService.UpdateStudentAsync(id, studentEditDto);
-           
+
+            TempData["ToastrMessage"] = "Registro editado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
+
             return RedirectToAction("Index");
         }
 
@@ -71,6 +80,10 @@ namespace UniversidadQ10.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _studentService.DeleteStudentAsync(id);
+
+            TempData["ToastrMessage"] = "Registro eliminado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
 
             return  RedirectToAction("Index");
         }

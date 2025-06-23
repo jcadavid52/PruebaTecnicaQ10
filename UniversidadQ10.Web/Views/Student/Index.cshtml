@@ -22,10 +22,10 @@
                 <td>@student.Document</td>
                 <td>
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-2 m-2">
                             <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
                         </div>
-                        <div class="col-2">
+                        <div class="col-2 m-2">
                             <form asp-action="Delete" asp-route-id="@student.Id" method="post" onsubmit="return confirm('¿Estás seguro que deseas eliminar este estudiante?');">
                                 <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
@@ -42,3 +42,16 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            @if (TempData["ToastrMessage"] != null)
+            {
+                        <text>
+                            toastr["@TempData["ToastrType"]"]("@TempData["ToastrMessage"]");
+                       </text>
+            }
+        });
+    </script>
+}

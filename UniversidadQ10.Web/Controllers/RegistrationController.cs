@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 using UniversidadQ10.Domain.Dtos;
 using UniversidadQ10.Domain.Ports;
 using UniversidadQ10.Web.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UniversidadQ10.Web.Controllers
 {
@@ -11,6 +13,7 @@ namespace UniversidadQ10.Web.Controllers
         private readonly IStudentService _studentService;
         private readonly ISubjectService _subjectService;
         private readonly IRegistrationService _registrationService;
+
         public RegistrationController(IStudentService studentService, ISubjectService subjectService, IRegistrationService registrationService)
         {
             _studentService = studentService;
@@ -19,6 +22,12 @@ namespace UniversidadQ10.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (TempData["CoreBusinessError"] is string MessageError)
+            {
+                TempData["ToastrMessage"] = MessageError;
+                TempData["ToastrType"] = "warning";
+            }
+
             var registrationViewModel = await GetSelectList();
 
             return View(registrationViewModel);
@@ -27,13 +36,25 @@ namespace UniversidadQ10.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegistrationViewModel viewModel)
         {
-            var registrationCreateDto = new RegistrationCreateDto(viewModel.SelectedStudentId,viewModel.SelectedSubjecttId);
+            var registrationViewModel = new RegistrationViewModel();
+
+            if (!ModelState.IsValid)
+            {
+                registrationViewModel = await GetSelectList();
+                return View("Index", registrationViewModel);
+            }
+
+            var registrationCreateDto = new RegistrationCreateDto(viewModel.SelectedStudentId ?? 0,viewModel.SelectedSubjectId ?? 0);
 
             await _registrationService.CreateRegistrationAsync(registrationCreateDto);
 
-            var registrationViewModel = await GetSelectList();
+            registrationViewModel = await GetSelectList();
 
-            return View("Index", registrationViewModel);
+            TempData["ToastrMessage"] = "Registro creado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
+
+            return RedirectToAction("Index");
         }
 
         private async Task<RegistrationViewModel> GetSelectList()
@@ -63,5 +84,6 @@ namespace UniversidadQ10.Web.Controllers
 
             return registrationViewModel;
         }
+
     }
 }

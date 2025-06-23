@@ -34,9 +34,14 @@ namespace UniversidadQ10.Web.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var subjectCreateDto = new SubjectCreateDto(viewModel.Name,viewModel.Credit);
+            var subjectCreateDto = new SubjectCreateDto(viewModel.Name,viewModel.Credit ?? 0);
 
             await _subjectService.CreateSubjectAsync(subjectCreateDto);
+
+            TempData["ToastrMessage"] = "Registro creado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
+
             return RedirectToAction("Index");
         }
 
@@ -59,9 +64,13 @@ namespace UniversidadQ10.Web.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var subjectEditDto = new SubjectEditDto(viewModel.Name,viewModel.Credit);
+            var subjectEditDto = new SubjectEditDto(viewModel.Name,viewModel.Credit ?? 0);
 
             await _subjectService.UpdateSubjectAsync(id, subjectEditDto);
+
+            TempData["ToastrMessage"] = "Registro editado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
 
             return RedirectToAction("Index");
         }
@@ -70,6 +79,10 @@ namespace UniversidadQ10.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _subjectService.DeleteSubjectAsync(id);
+
+            TempData["ToastrMessage"] = "Registro eliminado exitosamente";
+            TempData["ToastrType"] = "success";
+            TempData.Save();
 
             return RedirectToAction("Index");
         }

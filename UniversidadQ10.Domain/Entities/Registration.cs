@@ -16,7 +16,7 @@ namespace UniversidadQ10.Domain.Entities
         public void ValidateCreditsSubjectStudent(int quantitySubjects)
         {
             if (quantitySubjects >= _quantityPermittedSubjects)
-                throw new CoreBusinessException($"El estudiante ha superado el tope de materias con créditos mayores a {_quantityPermittedSubjects}");
+                throw new ValidateCreditsSubjectStudentException($"El estudiante ha superado el tope de materias con créditos mayores a {_quantityPermittedSubjects}");
         }
     }
 }

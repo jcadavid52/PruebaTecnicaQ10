@@ -6,17 +6,19 @@ namespace UniversidadQ10.Web.ViewModels
 {
     public class RegistrationViewModel
     {
-        [Required]
-        public int SelectedStudentId { get; set; }
+        [Required(ErrorMessage ="Este campo es requerido")]
+        [Display(Name = "Estudiante")]
+        public int? SelectedStudentId { get; set; }
 
-        [Required]
-        public int SelectedSubjecttId { get; set; }
+        [Required(ErrorMessage = "Este campo es requerido")]
+        [Display(Name = "Materia")]
+        public int? SelectedSubjectId { get; set; }
 
-        public IEnumerable<SelectListItem> Students { get; set; } = default!;
+        public IEnumerable<SelectListItem> Students { get; set; } = new List<SelectListItem>();
 
-        public IEnumerable<SelectListItem> Subjects { get; set; } = default!;
+        public IEnumerable<SelectListItem> Subjects { get; set; } = new List<SelectListItem>();
 
-        public IEnumerable<RegistrationDto> Registrations { get; set; } = default!;
+        public IEnumerable<RegistrationDto> Registrations { get; set; } = new List<RegistrationDto>();
 
     }
 }
